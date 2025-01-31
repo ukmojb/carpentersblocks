@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "somecarpentersblocks:garage_door_top", "y": 180 },
+    "facing=south": { "model": "somecarpentersblocks:garage_door_top"},
+    "facing=east": { "model": "somecarpentersblocks:garage_door_top", "y": 270 },
+    "facing=west": { "model": "somecarpentersblocks:garage_door_top" , "y": 90 }
+  }
+}
