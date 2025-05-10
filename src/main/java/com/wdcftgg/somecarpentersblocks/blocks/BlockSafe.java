@@ -164,9 +164,10 @@ public class BlockSafe extends BlockChest implements IHasModel {
         return this.isBelowSolidBlock(worldIn, pos) || this.isOcelotSittingOnChest(worldIn, pos);
     }
 
+
     private boolean isBelowSolidBlock(World worldIn, BlockPos pos)
     {
-        return worldIn.getBlockState(pos.up()).doesSideBlockChestOpening(worldIn, pos.up(), EnumFacing.DOWN);
+        return false;
     }
 
     private boolean isOcelotSittingOnChest(World worldIn, BlockPos pos)

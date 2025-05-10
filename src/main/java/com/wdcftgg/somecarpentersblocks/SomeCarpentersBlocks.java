@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 public class SomeCarpentersBlocks {
     public static final String MODID = "somecarpentersblocks";
     public static final String NAME = "SomeCarpentersBlocks";
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "1.0.1";
     public static Logger logger;
 
     @Mod.Instance
