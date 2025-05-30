@@ -32,12 +32,21 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
+import static net.minecraft.block.state.BlockStateBase.cyclePropertyValue;
+
+@Mod.EventBusSubscriber
 public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvider
 {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
@@ -157,6 +166,7 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
     {
         TileEntityGarageDoor te = (TileEntityGarageDoor) worldIn.getTileEntity(pos);
         if (te != null) {
+
             if (!te.hasBlock()) {
                 ItemStack itemStack = playerIn.getHeldItem(hand);
                 if (itemStack.getItem() instanceof ItemBlock) {
@@ -165,10 +175,13 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
                     Block block = itemBlock.getBlock();
                     int meta = itemStack.getMetadata();
 
-                    itemStack.shrink(1);
-                    te.setBlockAndMeta(Block.getIdFromBlock(block), meta);
-                    playerIn.playSound(SoundEvents.BLOCK_ANVIL_USE, 1.0F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
-                    return true;
+                    if (block.isOpaqueCube(block.getStateFromMeta(meta))) {
+
+                        itemStack.shrink(1);
+                        te.setBlockAndMeta(block.getRegistryName().toString(), meta);
+                        playerIn.playSound(SoundEvents.BLOCK_ANVIL_USE, 1.0F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
+                        return true;
+                    }
                 }
             }
         }
@@ -179,35 +192,21 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
         }
         else
         {
-            int block = 0;
-            int meta = 0;
-            if (te != null) {
-                if (te.hasBlock()) {
-                    block = te.getBlock();
-                    meta = te.getMeta();
-                }
-                state = state.cycleProperty(OPEN);
-                worldIn.setBlockState(pos, state, 2);
-                TileEntityGarageDoor newte = (TileEntityGarageDoor) worldIn.getTileEntity(pos);
-                if (newte != null) {
-                    newte.setBlockAndMeta(block, meta);
-                }
-                this.playSound(playerIn, worldIn, pos, ((Boolean)state.getValue(OPEN)).booleanValue());
-            }
+            cycleProperty(OPEN, state, pos, worldIn);
             return true;
         }
     }
 
-    protected void playSound(@Nullable EntityPlayer player, World worldIn, BlockPos pos, boolean p_185731_4_)
+    protected static void playSound(@Nullable EntityPlayer player, World worldIn, BlockPos pos, boolean p_185731_4_)
     {
         if (p_185731_4_)
         {
-            int i = this.material == Material.IRON ? 1037 : 1007;
+            int i =  1007;
             worldIn.playEvent(player, i, pos, 0);
         }
         else
         {
-            int j = this.material == Material.IRON ? 1036 : 1013;
+            int j =  1013;
             worldIn.playEvent(player, j, pos, 0);
         }
     }
@@ -227,8 +226,8 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
         }
 
         TileEntityGarageDoor te = (TileEntityGarageDoor) worldIn.getTileEntity(pos);
-        if (te != null && !worldIn.isRemote) {
-            InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Block.getBlockById(te.getBlock())));
+        if (te != null && !worldIn.isRemote && te.hasBlock()) {
+            InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Objects.requireNonNull(Block.getBlockFromName(te.getBlock())), 1, te.getMeta()));
         }
     }
 
@@ -237,11 +236,12 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
+
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
     {
         if (!worldIn.isRemote)
         {
-            boolean flag = worldIn.isBlockPowered(pos);
+            boolean flag = worldIn.isBlockPowered(pos) && worldIn.getRedstonePowerFromNeighbors(pos) > 0;
 
             if (flag || blockIn.getDefaultState().canProvidePower())
             {
@@ -249,13 +249,14 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
 
                 if (flag1 != flag)
                 {
-                    worldIn.setBlockState(pos, state.withProperty(OPEN, Boolean.valueOf(flag)), 2);
-                    this.playSound((EntityPlayer)null, worldIn, pos, flag);
+
+                    cycleProperty(OPEN, state, pos, worldIn);
+
                 }
             }
         }
 
-        this.checkAndDropBlock(worldIn, pos, state);
+//        this.checkAndDropBlock(worldIn, pos, state);
     }
 
 
@@ -300,7 +301,8 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
     public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side)
     {
         IBlockState blockState = worldIn.getBlockState(pos.up());
-        return blockState.getBlock() != Blocks.AIR && blockState.isFullBlock();
+//        return blockState.getBlock() != Blocks.AIR && blockState.isFullBlock();
+        return blockState.getBlock() != Blocks.AIR;
     }
 
     protected static EnumFacing getFacing(int meta)
@@ -411,6 +413,110 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
         return face == EnumFacing.UP && !((Boolean)state.getValue(OPEN)).booleanValue() ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
 
+
+    public <T extends Comparable<T>> void cycleProperty(IProperty<T> property, IBlockState state, BlockPos pos, World world)
+    {
+//        System.out.println("cycleProperty");
+
+
+        for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+            IBlockState iBlockState = world.getBlockState(pos.offset(facing));
+            Block block = world.getBlockState(pos.offset(facing)).getBlock();
+
+            if (block instanceof BlockGarageDoor) {
+                if (iBlockState.getValue(FACING) == state.getValue(FACING)) {
+
+                    if (iBlockState.getValue(OPEN) && state.getValue(OPEN)) {
+                        boolean pass = false;
+                        TileEntityGarageDoor te1 = (TileEntityGarageDoor) world.getTileEntity(pos);
+                        int g = 0;
+                        int power1 = 0;
+                        while (true) {
+                            g++;
+
+                            power1 = Math.max(world.getRedstonePowerFromNeighbors(pos.down(g)), power1);
+
+                            if (g >= 50) break;
+                        }
+
+
+                        if (power1 == 0) {
+//                        cycleProperty(OPEN, blockState, pos, world);
+                            cyclePropertyTrue(property, iBlockState, pos, world);
+                            pass = true;
+                        } else {
+                            if (te1 != null) {
+                                te1.setTime(30);
+                            }
+                        }
+
+                        TileEntityGarageDoor te = (TileEntityGarageDoor) world.getTileEntity(pos.offset(facing));
+                        int v = 0;
+                        int power = 0;
+                        while (true) {
+                            v++;
+
+                            power = Math.max(world.getRedstonePowerFromNeighbors(pos.offset(facing).down(v)), power);
+
+                            if (v >= 50) break;
+                        }
+
+
+                        if (power == 0 && pass) {
+                            cyclePropertyTrue(property, iBlockState, pos.offset(facing), world);
+                        } else {
+                            if (te != null) {
+                                te.setTime(30);
+                            }
+                        }
+                    }
+                    else if (!iBlockState.getValue(OPEN) && !state.getValue(OPEN)) {
+                        cyclePropertyTrue(property, iBlockState, pos.offset(facing), world);
+                    }
+
+                }
+            }
+        }
+
+        cyclePropertyTrue(property, state, pos, world);
+//        return state.withProperty(property, cyclePropertyValue(property.getAllowedValues(), state.getValue(property)));
+    }
+
+    private <T extends Comparable<T>> void cyclePropertyTrue(IProperty<T> property, IBlockState state, BlockPos pos, World world)
+    {
+
+        TileEntityGarageDoor te = (TileEntityGarageDoor) world.getTileEntity(pos);
+        String block = "";
+        int meta = 0;
+        Map<Integer, String> blockmap = new HashMap<>();
+        Map<Integer, Integer> matemap = new HashMap<>();
+        if (te != null) {
+            if (te.hasBlock()) {
+                block = te.getBlock();
+                meta = te.getMeta();
+            }
+            if (!te.getBlockmap().isEmpty()) {
+                blockmap = te.getBlockmap();
+                matemap = te.getMatemap();
+            }
+            IBlockState newState = state.withProperty(property, cyclePropertyValue(property.getAllowedValues(), state.getValue(property)));
+            state = newState;
+            world.setBlockState(pos, state, 2);
+            TileEntityGarageDoor newte = (TileEntityGarageDoor) world.getTileEntity(pos);
+            if (newte != null) {
+                newte.setBlockAndMeta(block, meta);
+                newte.setTwoMap(blockmap, matemap);
+                if (newState.getValue(OPEN)) {
+                    newte.setTime(30);
+                }
+            }
+            this.playSound(null, world, pos, ((Boolean)state.getValue(OPEN)).booleanValue());
+        }
+
+//        return state.withProperty(property, cyclePropertyValue(property.getAllowedValues(), state.getValue(property)));
+    }
+
+
     @Override
     public boolean isLadder(IBlockState state, IBlockAccess world, BlockPos pos, EntityLivingBase entity)
     {
@@ -448,6 +554,18 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
         public String getName()
         {
             return this.name;
+        }
+    }
+
+
+    @SubscribeEvent
+    public static void onNeighborNotify(BlockEvent.NeighborNotifyEvent event) {
+        World worldIn = event.getWorld();
+        BlockPos pos = event.getPos();
+        if (!worldIn.isRemote){
+            if (event.getForceRedstoneUpdate()) {
+
+            }
         }
     }
 }

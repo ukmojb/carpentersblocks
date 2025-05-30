@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageSafe implements IMessageHandler<MessageSafe, IMessage>, IMessage  {
 
-    public int block;
+    public String block;
     public int meta;
     public int x;
     public int y;
@@ -25,7 +25,7 @@ public class MessageSafe implements IMessageHandler<MessageSafe, IMessage>, IMes
     public MessageSafe() {
     }
 
-    public MessageSafe(int block, int meta, BlockPos pos) {
+    public MessageSafe(String block, int meta, BlockPos pos) {
         this.block = block;
         this.meta = meta;
         this.x = pos.getX();
@@ -35,7 +35,7 @@ public class MessageSafe implements IMessageHandler<MessageSafe, IMessage>, IMes
     }
 
     public void fromBytes(ByteBuf buf) {
-        this.block = buf.readInt();
+        this.block = ByteBufUtils.readUTF8String(buf);
         this.meta = buf.readInt();
         this.x = buf.readInt();
         this.y = buf.readInt();
@@ -43,7 +43,7 @@ public class MessageSafe implements IMessageHandler<MessageSafe, IMessage>, IMes
     }
 
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(block);
+        ByteBufUtils.writeUTF8String(buf, block);
         buf.writeInt(meta);
         buf.writeInt(x);
         buf.writeInt(y);

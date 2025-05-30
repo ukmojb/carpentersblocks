@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityChest;
@@ -17,7 +18,7 @@ import javax.annotation.Nullable;
 
 public class TileEntitySafe extends TileEntityChest {
 
-    private int block = 0;
+    private String block = "";
     private int meta = 0;
 
     @Override
@@ -29,13 +30,13 @@ public class TileEntitySafe extends TileEntityChest {
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        block = compound.getInteger("block");
+        block = compound.getString("block");
         meta = compound.getInteger("meta");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound.setInteger("block", block);
+        compound.setString("block", block);
         compound.setInteger("meta", meta);
         return super.writeToNBT(compound);
     }
@@ -100,19 +101,22 @@ public class TileEntitySafe extends TileEntityChest {
     }
 
     public IBlockState getiBlockState() {
-        return Block.getBlockById(block).getStateFromMeta(meta);
+        if (block == "") {
+            return Blocks.AIR.getDefaultState();
+        }
+        return Block.getBlockFromName(block).getStateFromMeta(meta);
     }
 
-    public void setBlockAndMeta(int block, int meta) {
+    public void setBlockAndMeta(String block, int meta) {
         this.block = block;
         this.meta = meta;
     }
 
     public boolean hasBlock(){
-        return block != 0;
+        return block != "";
     }
 
-    public int getBlock() {
+    public String getBlock() {
         return block;
     }
 

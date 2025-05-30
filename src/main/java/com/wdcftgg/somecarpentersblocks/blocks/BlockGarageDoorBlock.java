@@ -31,7 +31,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import static com.wdcftgg.somecarpentersblocks.blocks.BlockGarageDoor.OPEN;
@@ -39,7 +41,7 @@ import static com.wdcftgg.somecarpentersblocks.blocks.BlockGarageDoor.OPEN;
 public class BlockGarageDoorBlock extends Block implements IHasModel, ITileEntityProvider {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
-
+    public TileEntityGarageDoorBlock tileEntityGarageDoorBlock = null;
     protected static final AxisAlignedBB EAST_CLOSE_AABB = new AxisAlignedBB((double) 2/16, 0.0D, 0.0D, (double) 4/16, 1D, 1.0D);
     protected static final AxisAlignedBB WEST_CLOSE_AABB = new AxisAlignedBB((double) 12/16, 0.0D, 0.0D, (double) 14/16, 1.0D, 1.0D);
     protected static final AxisAlignedBB SOUTH_CLOSE_AABB = new AxisAlignedBB(0.0D, 0.0D, (double) 2/16, 1.0D, 1.0D, (double) 4/16);
@@ -186,6 +188,61 @@ public class BlockGarageDoorBlock extends Block implements IHasModel, ITileEntit
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
 
+        TileEntityGarageDoorBlock doorBlock = (TileEntityGarageDoorBlock) worldIn.getTileEntity(pos);
+        if (doorBlock != null) {
+            if (!doorBlock.hasBlock()) {
+                ItemStack itemStack1 = playerIn.getHeldItem(hand);
+                if (itemStack1.getItem() instanceof ItemBlock) {
+                    ItemBlock itemBlock1 = (ItemBlock) itemStack1.getItem();
+
+                    Block block1 = itemBlock1.getBlock();
+                    int meta1 = itemStack1.getMetadata();
+
+                    if (block1.isOpaqueCube(block1.getStateFromMeta(meta1))) {
+
+                        doorBlock.setBlockAndMeta(block1.getRegistryName().toString(), meta1);
+                        playerIn.playSound(SoundEvents.BLOCK_ANVIL_USE, 1.0F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
+                        int s = 0;
+                        while (true) {
+                            s++;
+                            boolean pass = worldIn.getBlockState(pos.up(s)).getBlock() == ModBlocks.GarageDoorBlock;
+                            boolean pass1 = (worldIn.getBlockState(pos.up(s)).getBlock() == ModBlocks.GarageDoor && !worldIn.getBlockState(pos.up(s)).getValue(OPEN));
+
+                            if (pass1) {
+                                IBlockState blockState = worldIn.getBlockState(pos.up(s));
+
+                                TileEntityGarageDoor te = (TileEntityGarageDoor) worldIn.getTileEntity(pos.up(s));
+                                if (te != null) {
+//                                    System.out.println("has TileEntityGarageDoor");
+                                    ItemStack itemStack = playerIn.getHeldItem(hand);
+                                    if (itemStack.getItem() instanceof ItemBlock) {
+//                                    System.out.println("itemStack.getItem() instanceof ItemBlock");
+
+                                        ItemBlock itemBlock = (ItemBlock) itemStack.getItem();
+
+                                        Block block = itemBlock.getBlock();
+                                        int meta = itemStack.getMetadata();
+
+
+                                        itemStack1.shrink(1);
+                                        te.addBlock(block.getRegistryName().toString(), meta, s);
+                                        return true;
+                                    }
+                                }
+
+                                break;
+                            }
+
+                            if (s >= 66) break;
+//                            if (!pass) continue;
+                        }
+
+                        return true;
+                    }
+                }
+            }
+        }
+
 
 
         int i = 0;
@@ -196,35 +253,51 @@ public class BlockGarageDoorBlock extends Block implements IHasModel, ITileEntit
 
             if (pass1) {
                 IBlockState blockState = worldIn.getBlockState(pos.up(i));
+                BlockGarageDoor block2 = (BlockGarageDoor) worldIn.getBlockState(pos.up(i)).getBlock();
 
-//                blockState = blockState.cycleProperty(OPEN);
-//                worldIn.setBlockState(pos.up(i), blockState, 2);
-//                this.playSound(playerIn, worldIn, pos.up(i), ((Boolean)blockState.getValue(OPEN)).booleanValue());
-
-                TileEntityGarageDoor te = (TileEntityGarageDoor) worldIn.getTileEntity(pos.up(i));
-                int block = 0;
-                int meta = 0;
-                if (te != null) {
-                    if (te.hasBlock()) {
-                        block = te.getBlock();
-                        meta = te.getMeta();
-                    }
-                    blockState = blockState.cycleProperty(OPEN);
-                    worldIn.setBlockState(pos.up(i), blockState, 2);
-                    TileEntityGarageDoor newte = (TileEntityGarageDoor) worldIn.getTileEntity(pos.up(i));
-                    if (newte != null) {
-                        newte.setBlockAndMeta(block, meta);
-                    }
-                    this.playSound(playerIn, worldIn, pos.up(i), ((Boolean)blockState.getValue(OPEN)).booleanValue());
-                }
+                block2.cycleProperty(OPEN, blockState, pos.up(i), worldIn);
                 break;
             }
 
-            if (!pass) continue;
             if (i >= 66) break;
+            if (!pass) continue;
         }
 
         return true;
+    }
+
+
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos)
+    {
+        if (!worldIn.isRemote)
+        {
+            boolean flag = worldIn.isBlockPowered(pos);
+            if (flag)
+            {
+                int i = 0;
+                while (true) {
+                    i++;
+                    boolean pass = worldIn.getBlockState(pos.up(i)).getBlock() == ModBlocks.GarageDoorBlock;
+                    boolean pass1 = (worldIn.getBlockState(pos.up(i)).getBlock() == ModBlocks.GarageDoor && !worldIn.getBlockState(pos.up(i)).getValue(OPEN));
+
+                    if (pass1) {
+                        IBlockState blockState = worldIn.getBlockState(pos.up(i));
+                        BlockGarageDoor block2 = (BlockGarageDoor) worldIn.getBlockState(pos.up(i)).getBlock();
+
+                        block2.cycleProperty(OPEN, blockState, pos.up(i), worldIn);
+                        break;
+                    }
+
+
+
+                    if (i >= 66) break;
+
+//                    if (!pass) continue;
+                }
+            }
+        }
+
     }
 
 
@@ -267,11 +340,11 @@ public class BlockGarageDoorBlock extends Block implements IHasModel, ITileEntit
 
         if (facing.getAxis().isHorizontal())
         {
-            iblockstate = iblockstate.withProperty(FACING, facing).withProperty(OPEN, Boolean.valueOf(false));
+            iblockstate = iblockstate.withProperty(FACING, facing);
         }
         else
         {
-            iblockstate = iblockstate.withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(OPEN, Boolean.valueOf(false));
+            iblockstate = iblockstate.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
         }
 
 
@@ -282,6 +355,17 @@ public class BlockGarageDoorBlock extends Block implements IHasModel, ITileEntit
     @Override
     public void registerModels() {
         SomeCarpentersBlocks.proxy.registerItemRenderer(Item.getItemFromBlock(this), 0, "inventory");
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+
+        if (tileEntityGarageDoorBlock != null) {
+            if (tileEntityGarageDoorBlock.hasBlock()) {
+                return EnumBlockRenderType.INVISIBLE;
+            }
+        }
+        return EnumBlockRenderType.MODEL;
     }
 
     @SideOnly(Side.CLIENT)

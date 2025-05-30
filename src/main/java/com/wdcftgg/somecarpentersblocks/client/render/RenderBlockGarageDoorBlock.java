@@ -1,5 +1,7 @@
 package com.wdcftgg.somecarpentersblocks.client.render;
 
+import com.wdcftgg.somecarpentersblocks.SomeCarpentersBlocks;
+import com.wdcftgg.somecarpentersblocks.blocks.BlockGarageDoorBlock;
 import com.wdcftgg.somecarpentersblocks.blocks.BlockSafe;
 import com.wdcftgg.somecarpentersblocks.blocks.te.TileEntityGarageDoor;
 import com.wdcftgg.somecarpentersblocks.blocks.te.TileEntityGarageDoorBlock;
@@ -14,10 +16,14 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Objects;
+
 public class RenderBlockGarageDoorBlock extends TileEntitySpecialRenderer<TileEntityGarageDoorBlock> {
     @Override
     public void render(TileEntityGarageDoorBlock te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
     {
+
+//        if (te.hasBlock()) return;
 
         GlStateManager.enableDepth();
         GlStateManager.depthFunc(515);
@@ -57,8 +63,15 @@ public class RenderBlockGarageDoorBlock extends TileEntitySpecialRenderer<TileEn
         }
 
         IBlockState iBlockState = te.getiBlockState();
-        if (iBlockState != null && te.hasBlock()) {
-            ResourceLocation res = getResFromTexture(iBlockState);
+        if (iBlockState != null) {
+
+            ResourceLocation res;
+            if (!te.hasBlock()) {
+                res = new ResourceLocation(SomeCarpentersBlocks.MODID + ":textures/block/oak_planks.png");
+            } else {
+                res = getResFromTexture(iBlockState);
+            }
+
             if (res != null) {
 
                 int u = 0;
@@ -125,16 +138,32 @@ public class RenderBlockGarageDoorBlock extends TileEntitySpecialRenderer<TileEn
                 suffix = s;
             }
 
-            return new ResourceLocation(prefix + ":textures/" + suffix + ".png");
+            ResourceLocation resourceLocation = new ResourceLocation(prefix + ":textures/" + suffix + ".png");
+
+            resourceLocation = setModRes(prefix, suffix, resourceLocation);
+
+            return resourceLocation;
         } catch (ArrayIndexOutOfBoundsException a){
             return null;
         }
     }
 
+    public ResourceLocation setModRes(String modid, String name, ResourceLocation resourceLocation) {
+//        System.out.println("-" + modid + "-");
+        if (Objects.equals(modid, "chisel")) {
+//                System.out.println(name);
+            if (name.contains("wallvents-ctmh")) {
+                resourceLocation = new ResourceLocation(SomeCarpentersBlocks.MODID + ":textures/block/wallvents-ctmh.png");
+            }
+        }
+
+        return resourceLocation;
+    }
+
 
     private void renderFrontBackFace(ResourceLocation res, double x, double y, double z, int j) {
         GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
+//        GlStateManager.enableBlend();
         GlStateManager.enablePolygonOffset();
         GlStateManager.disableLighting();
         GL11.glDisable(GL11.GL_CULL_FACE);
@@ -164,10 +193,10 @@ public class RenderBlockGarageDoorBlock extends TileEntitySpecialRenderer<TileEn
         buffer.pos((double) 6 / 16, -0.5, -0.495).tex((double) 11 / 16, (double) 4 / 16).endVertex(); // 中中右
         buffer.pos(-(double) 6 / 16, -0.5, -0.495).tex((double) 5 / 16, (double) 4 / 16).endVertex(); // 中中左
 
-        buffer.pos(-(double) 6 / 16, -(double) 12 / 16, -0.495).tex((double) 5 / 16, (double) 9 / 16).endVertex(); // 中上左
-        buffer.pos((double) 6 / 16, -(double) 12 / 16, -0.495).tex((double) 11 / 16, (double) 9 / 16).endVertex(); // 中上右
-        buffer.pos((double) 6 / 16, -2, -0.495).tex((double) 11 / 16, -(double) 1 / 16).endVertex(); // 中中右
-        buffer.pos(-(double) 6 / 16, -2, -0.495).tex((double) 5 / 16, -(double) 1 / 16).endVertex(); // 中中左
+        buffer.pos(-(double) 6 / 16, -(double) 12 / 16, -0.495).tex((double) 5 / 16, (double) 6 / 16).endVertex(); // 中上左
+        buffer.pos((double) 6 / 16, -(double) 12 / 16, -0.495).tex((double) 11 / 16, (double) 6 / 16).endVertex(); // 中上右
+        buffer.pos((double) 6 / 16, -2, -0.495).tex((double) 11 / 16, (double) 16 / 16).endVertex(); // 中中右
+        buffer.pos(-(double) 6 / 16, -2, -0.495).tex((double) 5 / 16, (double) 16 / 16).endVertex(); // 中中左
 
         //后
         buffer.pos(-1, 0, -0.75).tex(0, 0).endVertex(); // 左上
@@ -185,16 +214,21 @@ public class RenderBlockGarageDoorBlock extends TileEntitySpecialRenderer<TileEn
         buffer.pos((double) 6 / 16, -0.5, -0.75).tex((double) 11 / 16, (double) 4 / 16).endVertex(); // 中中右
         buffer.pos(-(double) 6 / 16, -0.5, -0.75).tex((double) 5 / 16, (double) 4 / 16).endVertex(); // 中中左
 
-        buffer.pos(-(double) 6 / 16, -(double) 12 / 16, -0.75).tex((double) 5 / 16, (double) 9 / 16).endVertex(); // 中上左
-        buffer.pos((double) 6 / 16, -(double) 12 / 16, -0.75).tex((double) 11 / 16, (double) 9 / 16).endVertex(); // 中上右
-        buffer.pos((double) 6 / 16, -2, -0.75).tex((double) 11 / 16, -(double) 1 / 16).endVertex(); // 中中右
-        buffer.pos(-(double) 6 / 16, -2, -0.75).tex((double) 5 / 16, -(double) 1 / 16).endVertex(); // 中中左
+//        buffer.pos((double) 6 / 16, -(double) 12 / 16, -0.75).tex((double) 5 / 16, (double) 9 / 16).endVertex(); // 中上左
+//        buffer.pos(-(double) 6 / 16, -(double) 12 / 16, -0.75).tex((double) 11 / 16, (double) 9 / 16).endVertex(); // 中上右
+//        buffer.pos(-(double) 6 / 16, -2, -0.75).tex((double) 11 / 16, -(double) 1 / 16).endVertex(); // 中中右
+//        buffer.pos((double) 6 / 16, -2, -0.75).tex((double) 5 / 16, -(double) 1 / 16).endVertex(); // 中中左
+
+        buffer.pos(-(double) 6 / 16, -(double) 12 / 16, -0.75).tex((double) 5 / 16, (double) 6 / 16).endVertex(); // 中上左
+        buffer.pos((double) 6 / 16, -(double) 12 / 16, -0.75).tex((double) 11 / 16, (double) 6 / 16).endVertex(); // 中上右
+        buffer.pos((double) 6 / 16, -2, -0.75).tex((double) 11 / 16, (double) 16 / 16).endVertex(); // 中中右
+        buffer.pos(-(double) 6 / 16, -2, -0.75).tex((double) 5 / 16, (double) 16 / 16).endVertex(); // 中中左
 
 
         tessellator.draw();
 
         GL11.glEnable(GL11.GL_CULL_FACE);
-        GlStateManager.disableBlend();
+//        GlStateManager.disableBlend();
         GlStateManager.disablePolygonOffset();
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();
@@ -202,7 +236,7 @@ public class RenderBlockGarageDoorBlock extends TileEntitySpecialRenderer<TileEn
 
     private void renderOtherFace(ResourceLocation res, double x, double y, double z, int j) {
         GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
+//        GlStateManager.enableBlend();
         GlStateManager.enablePolygonOffset();
         GlStateManager.disableLighting();
         GL11.glDisable(GL11.GL_CULL_FACE);
@@ -265,7 +299,7 @@ public class RenderBlockGarageDoorBlock extends TileEntitySpecialRenderer<TileEn
         tessellator.draw();
 
         GL11.glEnable(GL11.GL_CULL_FACE);
-        GlStateManager.disableBlend();
+//        GlStateManager.disableBlend();
         GlStateManager.disablePolygonOffset();
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();

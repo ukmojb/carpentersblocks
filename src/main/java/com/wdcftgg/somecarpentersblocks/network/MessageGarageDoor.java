@@ -10,13 +10,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageGarageDoor implements IMessageHandler<MessageGarageDoor, IMessage>, IMessage  {
 
-    public int block;
+    public String block;
     public int meta;
     public int x;
     public int y;
@@ -26,7 +27,7 @@ public class MessageGarageDoor implements IMessageHandler<MessageGarageDoor, IMe
     public MessageGarageDoor() {
     }
 
-    public MessageGarageDoor(int block, int meta, BlockPos pos) {
+    public MessageGarageDoor(String block, int meta, BlockPos pos) {
         this.block = block;
         this.meta = meta;
         this.x = pos.getX();
@@ -36,7 +37,7 @@ public class MessageGarageDoor implements IMessageHandler<MessageGarageDoor, IMe
     }
 
     public void fromBytes(ByteBuf buf) {
-        this.block = buf.readInt();
+        this.block = ByteBufUtils.readUTF8String(buf);
         this.meta = buf.readInt();
         this.x = buf.readInt();
         this.y = buf.readInt();
@@ -44,7 +45,7 @@ public class MessageGarageDoor implements IMessageHandler<MessageGarageDoor, IMe
     }
 
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(block);
+        ByteBufUtils.writeUTF8String(buf, block);
         buf.writeInt(meta);
         buf.writeInt(x);
         buf.writeInt(y);

@@ -37,6 +37,7 @@ import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class BlockSafe extends BlockChest implements IHasModel {
     public BlockSafe() {
@@ -95,7 +96,7 @@ public class BlockSafe extends BlockChest implements IHasModel {
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
         TileEntitySafe te = (TileEntitySafe) worldIn.getTileEntity(pos);
         if (te != null && !worldIn.isRemote) {
-            InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Block.getBlockById(te.getBlock())));
+            InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Objects.requireNonNull(Block.getBlockFromName(te.getBlock())), 1, te.getMeta()));
         }
         super.breakBlock(worldIn, pos, state);
     }
@@ -141,7 +142,7 @@ public class BlockSafe extends BlockChest implements IHasModel {
                     itemStack.shrink(1);
 //                    System.out.println(Block.getIdFromBlock(block));
 //                    System.out.println(meta);
-                    te.setBlockAndMeta(Block.getIdFromBlock(block), meta);
+                    te.setBlockAndMeta(block.getRegistryName().toString(), meta);
 //                        PacketHandler.INSTANCE.sendToAll(new MessageSafe(Block.getIdFromBlock(block), meta, pos));
                     playerIn.playSound(SoundEvents.BLOCK_ANVIL_USE, 1.0F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
                     return true;
