@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "half=top": { "model": "carpentersblocks:slab"},
+    "half=bottom": { "model": "carpentersblocks:slab"},
+    "half=full": { "model": "carpentersblocks:slab"}
+  }
+}

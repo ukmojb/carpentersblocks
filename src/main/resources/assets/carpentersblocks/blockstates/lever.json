@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=up_z,powered=false":    { "model": "carpentersblocks:lever", "uvlock": true },
+    "facing=up_x,powered=false":    { "model": "carpentersblocks:lever", "uvlock": true },
+    "facing=down_x,powered=false":  { "model": "carpentersblocks:lever", "uvlock": true, "x": 180 },
+    "facing=down_z,powered=false":  { "model": "carpentersblocks:lever", "uvlock": true, "x": 180 },
+    "facing=east,powered=false":  { "model": "carpentersblocks:lever", "uvlock": true, "x": 90, "y": 90 },
+    "facing=west,powered=false":  { "model": "carpentersblocks:lever", "uvlock": true, "x": 90, "y": 270 },
+    "facing=south,powered=false": { "model": "carpentersblocks:lever", "uvlock": true, "x": 90, "y": 180 },
+    "facing=north,powered=false": { "model": "carpentersblocks:lever", "uvlock": true, "x": 90 },
+    "facing=up_x,powered=true":     { "model": "carpentersblocks:lever", "uvlock": true },
+    "facing=up_z,powered=true":     { "model": "carpentersblocks:lever", "uvlock": true },
+    "facing=down_x,powered=true":   { "model": "carpentersblocks:lever", "uvlock": true, "x": 180 },
+    "facing=down_z,powered=true":   { "model": "carpentersblocks:lever", "uvlock": true, "x": 180 },
+    "facing=east,powered=true":   { "model": "carpentersblocks:lever", "uvlock": true, "x": 90, "y": 90 },
+    "facing=west,powered=true":   { "model": "carpentersblocks:lever", "uvlock": true, "x": 90, "y": 270 },
+    "facing=south,powered=true":  { "model": "carpentersblocks:lever", "uvlock": true, "x": 90, "y": 180 },
+    "facing=north,powered=true":  { "model": "carpentersblocks:lever", "uvlock": true, "x": 90 }
+  }
+}

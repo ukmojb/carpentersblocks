@@ -1,0 +1,24 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "carpentersblocks:blocks/tile",
+		"particle": "carpentersblocks:blocks/tile"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 1],
+			"rotation": {"angle": 0, "axis": "x", "origin": [1, 1, 1]},
+			"faces": {
+				"north": {"uv": [8, 0, 12, 4], "texture": "#0"},
+				"east": {"uv": [12, 4, 16, 4.25], "texture": "#0"},
+				"south": {"uv": [4, 0, 8, 4], "texture": "#0"},
+				"west": {"uv": [0, 4, 3.75, 4.25], "texture": "#0"},
+				"up": {"uv": [8, 4.25, 4, 4], "texture": "#0"},
+				"down": {"uv": [12, 4, 8, 4.25], "texture": "#0"}
+			}
+		}
+	]
+}

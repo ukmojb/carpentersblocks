@@ -1,0 +1,9 @@
+{
+  "multipart": [
+    { "apply": { "model": "carpentersblocks:barrier" } },
+    { "when": { "north": true }, "apply": { "model": "carpentersblocks:barrier", "y": 0 } },
+    { "when": { "east": true },  "apply": { "model": "carpentersblocks:barrier", "y": 90 } },
+    { "when": { "south": true }, "apply": { "model": "carpentersblocks:barrier", "y": 180 } },
+    { "when": { "west": true },  "apply": { "model": "carpentersblocks:barrier", "y": 270 } }
+  ]
+}

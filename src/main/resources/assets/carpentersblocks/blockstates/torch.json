@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=up":    { "model": "carpentersblocks:torch"},
+    "facing=down":  { "model": "carpentersblocks:torch"},
+    "facing=east":  { "model": "carpentersblocks:torch"},
+    "facing=west":  { "model": "carpentersblocks:torch"},
+    "facing=south": { "model": "carpentersblocks:torch"},
+    "facing=north": { "model": "carpentersblocks:torch"}
+  }
+}

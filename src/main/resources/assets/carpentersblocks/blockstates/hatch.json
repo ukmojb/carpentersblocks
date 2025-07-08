@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north,half=bottom,open=false": { "model": "carpentersblocks:hatch" },
+    "facing=south,half=bottom,open=false": { "model": "carpentersblocks:hatch" },
+    "facing=west,half=bottom,open=false":  { "model": "carpentersblocks:hatch" },
+    "facing=east,half=bottom,open=false":  { "model": "carpentersblocks:hatch" },
+
+    "facing=north,half=bottom,open=true":  { "model": "carpentersblocks:hatch" },
+    "facing=south,half=bottom,open=true":  { "model": "carpentersblocks:hatch" },
+    "facing=west,half=bottom,open=true":   { "model": "carpentersblocks:hatch" },
+    "facing=east,half=bottom,open=true":   { "model": "carpentersblocks:hatch" },
+
+    "facing=north,half=top,open=false":    { "model": "carpentersblocks:hatch" },
+    "facing=south,half=top,open=false":    { "model": "carpentersblocks:hatch" },
+    "facing=west,half=top,open=false":     { "model": "carpentersblocks:hatch" },
+    "facing=east,half=top,open=false":     { "model": "carpentersblocks:hatch" },
+
+    "facing=north,half=top,open=true":     { "model": "carpentersblocks:hatch" },
+    "facing=south,half=top,open=true":     { "model": "carpentersblocks:hatch" },
+    "facing=west,half=top,open=true":      { "model": "carpentersblocks:hatch" },
+    "facing=east,half=top,open=true":      { "model": "carpentersblocks:hatch" }
+  }
+}

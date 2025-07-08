@@ -1,0 +1,8 @@
+{
+  "multipart": [
+    { "apply": { "model": "carpentersblocks:gate" } },
+    { "when": { "open": true }, "apply": { "model": "carpentersblocks:gate", "y": 0 } },
+    { "when": { "powered": true },  "apply": { "model": "carpentersblocks:gate", "y": 90 } },
+    { "when": { "in_wall": true }, "apply": { "model": "carpentersblocks:gate", "y": 180 } }
+  ]
+}

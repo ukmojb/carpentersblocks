@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north,state=1": { "model": "carpentersblocks:tile_1"},
+    "facing=south,state=1": { "model": "carpentersblocks:tile_1"},
+    "facing=east,state=1": { "model": "carpentersblocks:tile_1"},
+    "facing=west,state=1": { "model": "carpentersblocks:tile_1"},
+    "facing=north,state=2": { "model": "carpentersblocks:tile_2", "y": 180 },
+    "facing=south,state=2": { "model": "carpentersblocks:tile_2"},
+    "facing=east,state=2": { "model": "carpentersblocks:tile_2", "y": 270 },
+    "facing=west,state=2": { "model": "carpentersblocks:tile_2", "y": 90 },
+    "facing=north,state=3": { "model": "carpentersblocks:tile_3"},
+    "facing=south,state=3": { "model": "carpentersblocks:tile_3"},
+    "facing=east,state=3": { "model": "carpentersblocks:tile_3"},
+    "facing=west,state=3": { "model": "carpentersblocks:tile_3"}
+  }
+}

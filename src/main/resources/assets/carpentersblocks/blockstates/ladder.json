@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "carpentersblocks:ladder"},
+    "facing=south": { "model": "carpentersblocks:ladder"},
+    "facing=east": { "model": "carpentersblocks:ladder"},
+    "facing=west": { "model": "carpentersblocks:ladder"}
+  }
+}

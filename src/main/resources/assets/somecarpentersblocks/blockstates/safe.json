@@ -1,9 +1,0 @@
-{
-  "variants": {
-    "normal": { "model": "somecarpentersblocks:safe"},
-    "facing=south": { "model": "somecarpentersblocks:safe"},
-    "facing=west": { "model": "somecarpentersblocks:safe"},
-    "facing=north": { "model": "somecarpentersblocks:safe"},
-    "facing=east": { "model": "somecarpentersblocks:safe"}
-  }
-}
