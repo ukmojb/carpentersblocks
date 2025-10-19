@@ -1,14 +1,10 @@
 package com.wdcftgg.carpentersblocks.client.render;
 
 import com.wdcftgg.carpentersblocks.CarpentersBlocks;
-import com.wdcftgg.carpentersblocks.blocks.BlockTorch;
-import com.wdcftgg.carpentersblocks.blocks.te.TileEntityLever;
 import com.wdcftgg.carpentersblocks.blocks.te.TileEntityLever;
 import com.wdcftgg.carpentersblocks.client.model.lever.ModelLeverBase;
 import com.wdcftgg.carpentersblocks.client.model.lever.ModelLeverOff;
 import com.wdcftgg.carpentersblocks.client.model.lever.ModelLeverOn;
-import com.wdcftgg.carpentersblocks.client.model.torch.ModelTorchGround;
-import com.wdcftgg.carpentersblocks.client.model.torch.ModelTorchWall;
 import net.minecraft.block.BlockLever;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

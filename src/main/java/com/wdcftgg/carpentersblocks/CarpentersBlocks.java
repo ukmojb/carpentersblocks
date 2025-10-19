@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 public class CarpentersBlocks {
     public static final String MODID = "carpentersblocks";
     public static final String NAME = "CarpentersBlocks";
-    public static final String VERSION = "1.0.4";
+    public static final String VERSION = "1.0.5";
     public static Logger logger;
 
     @Mod.Instance
@@ -33,7 +33,6 @@ public class CarpentersBlocks {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        OBJLoader.INSTANCE.addDomain(MODID);
 
         channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(MODID);
 

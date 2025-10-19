@@ -1,5 +1,6 @@
 package com.wdcftgg.carpentersblocks.proxy;
 
+import com.wdcftgg.carpentersblocks.CarpentersBlocks;
 import com.wdcftgg.carpentersblocks.blocks.te.*;
 import com.wdcftgg.carpentersblocks.carpentersblocks.CarpentersBlocksCachedResources;
 import com.wdcftgg.carpentersblocks.carpentersblocks.util.ModLogger;
@@ -14,6 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -45,6 +47,8 @@ public class ClientProxy extends CommonProxy {
 
 	public void onPreInit(FMLPreInitializationEvent event) {
 		super.onPreInit(event);
+
+		OBJLoader.INSTANCE.addDomain(CarpentersBlocks.MODID);
 
 		MinecraftForge.EVENT_BUS.register(new SpriteRegistry());
 		ModelLoaderRegistry.registerLoader(new com.wdcftgg.carpentersblocks.carpentersblocks.renderer.ModelLoader());

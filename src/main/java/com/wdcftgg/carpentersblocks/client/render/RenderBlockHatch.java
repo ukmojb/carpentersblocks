@@ -2,15 +2,11 @@ package com.wdcftgg.carpentersblocks.client.render;
 
 import com.wdcftgg.carpentersblocks.CarpentersBlocks;
 import com.wdcftgg.carpentersblocks.blocks.BlockHatch;
-import com.wdcftgg.carpentersblocks.blocks.BlockTorch;
-import com.wdcftgg.carpentersblocks.blocks.te.TileEntityHatch;
 import com.wdcftgg.carpentersblocks.blocks.te.TileEntityHatch;
 import com.wdcftgg.carpentersblocks.client.model.hatch.ModelHatchBase;
 import com.wdcftgg.carpentersblocks.client.model.hatch.ModelHatchBottom;
 import com.wdcftgg.carpentersblocks.client.model.hatch.ModelHatchOpen;
 import com.wdcftgg.carpentersblocks.client.model.hatch.ModelHatchTop;
-import com.wdcftgg.carpentersblocks.client.model.torch.ModelTorchGround;
-import com.wdcftgg.carpentersblocks.client.model.torch.ModelTorchWall;
 import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

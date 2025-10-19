@@ -2,17 +2,14 @@ package com.wdcftgg.carpentersblocks.blocks;
 
 import com.wdcftgg.carpentersblocks.CarpentersBlocks;
 import com.wdcftgg.carpentersblocks.blocks.te.TileEntityLadder;
-import com.wdcftgg.carpentersblocks.blocks.te.TileEntitySafe;
 import com.wdcftgg.carpentersblocks.init.ModCreativeTab;
 import com.wdcftgg.carpentersblocks.items.ModItems;
 import com.wdcftgg.carpentersblocks.util.IHasModel;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;

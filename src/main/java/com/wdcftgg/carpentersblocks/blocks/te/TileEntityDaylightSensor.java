@@ -4,7 +4,6 @@ import com.wdcftgg.carpentersblocks.blocks.BlockDaylightSensor;
 import com.wdcftgg.carpentersblocks.network.MessageCustomRenderBase;
 import com.wdcftgg.carpentersblocks.network.PacketHandler;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDaylightDetector;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;

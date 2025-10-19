@@ -69,6 +69,7 @@ public class ServerProxy extends CommonProxy {
         GameRegistry.registerTileEntity(TileEntityDaylightSensor.class, new ResourceLocation(CarpentersBlocks.MODID, CarpentersBlocks.MODID + "_DaylightSensor"));
         GameRegistry.registerTileEntity(TileEntityHatch.class, new ResourceLocation(CarpentersBlocks.MODID, CarpentersBlocks.MODID + "_Hatch"));
         GameRegistry.registerTileEntity(TileEntityBarrier.class, new ResourceLocation(CarpentersBlocks.MODID, CarpentersBlocks.MODID + "_Barrier"));
+        GameRegistry.registerTileEntity(TileEntityGate.class, new ResourceLocation(CarpentersBlocks.MODID, CarpentersBlocks.MODID + "_Gate"));
 
 
     }

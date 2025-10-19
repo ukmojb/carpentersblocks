@@ -5,7 +5,10 @@ import com.wdcftgg.carpentersblocks.blocks.te.TileEntityGarageDoor;
 import com.wdcftgg.carpentersblocks.init.ModCreativeTab;
 import com.wdcftgg.carpentersblocks.items.ModItems;
 import com.wdcftgg.carpentersblocks.util.IHasModel;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -188,7 +191,7 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
         }
         else
         {
-            cycleProperty(OPEN, state, pos, worldIn);
+            cycleProperty(OPEN, state, pos, worldIn, false);
             return true;
         }
     }
@@ -247,7 +250,7 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
                 if (flag1 != flag)
                 {
 
-                    cycleProperty(OPEN, state, pos, worldIn);
+                    cycleProperty(OPEN, state, pos, worldIn, true);
 
                 }
             }
@@ -411,7 +414,7 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
     }
 
 
-    public <T extends Comparable<T>> void cycleProperty(IProperty<T> property, IBlockState state, BlockPos pos, World world)
+    public <T extends Comparable<T>> void cycleProperty(IProperty<T> property, IBlockState state, BlockPos pos, World world, boolean hasDelay)
     {
 //        System.out.println("cycleProperty");
 
@@ -439,11 +442,11 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
 
                         if (power1 == 0) {
 //                        cycleProperty(OPEN, blockState, pos, world);
-                            cyclePropertyTrue(property, iBlockState, pos, world);
+                            cyclePropertyTrue(property, iBlockState, pos, world, hasDelay);
                             pass = true;
                         } else {
                             if (te1 != null) {
-                                te1.setTime(30);
+                                if (hasDelay) te1.setTime(30);
                             }
                         }
 
@@ -460,26 +463,26 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
 
 
                         if (power == 0 && pass) {
-                            cyclePropertyTrue(property, iBlockState, pos.offset(facing), world);
+                            cyclePropertyTrue(property, iBlockState, pos.offset(facing), world, hasDelay);
                         } else {
                             if (te != null) {
-                                te.setTime(30);
+                                if (hasDelay) te.setTime(30);
                             }
                         }
                     }
                     else if (!iBlockState.getValue(OPEN) && !state.getValue(OPEN)) {
-                        cyclePropertyTrue(property, iBlockState, pos.offset(facing), world);
+                        cyclePropertyTrue(property, iBlockState, pos.offset(facing), world, hasDelay);
                     }
 
                 }
             }
         }
 
-        cyclePropertyTrue(property, state, pos, world);
+        cyclePropertyTrue(property, state, pos, world, hasDelay);
 //        return state.withProperty(property, cyclePropertyValue(property.getAllowedValues(), state.getValue(property)));
     }
 
-    private <T extends Comparable<T>> void cyclePropertyTrue(IProperty<T> property, IBlockState state, BlockPos pos, World world)
+    private <T extends Comparable<T>> void cyclePropertyTrue(IProperty<T> property, IBlockState state, BlockPos pos, World world, boolean hasDelay)
     {
 
         TileEntityGarageDoor te = (TileEntityGarageDoor) world.getTileEntity(pos);
@@ -504,7 +507,7 @@ public class BlockGarageDoor extends Block implements IHasModel,ITileEntityProvi
                 newte.setBlockAndMeta(block, meta);
                 newte.setTwoMap(blockmap, matemap);
                 if (newState.getValue(OPEN)) {
-                    newte.setTime(30);
+                    if (hasDelay) newte.setTime(30);
                 }
             }
             this.playSound(null, world, pos, ((Boolean)state.getValue(OPEN)).booleanValue());

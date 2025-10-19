@@ -1,6 +1,5 @@
 package com.wdcftgg.carpentersblocks.blocks.te;
 
-import com.wdcftgg.carpentersblocks.blocks.BlockButton;
 import com.wdcftgg.carpentersblocks.blocks.BlockLever;
 import com.wdcftgg.carpentersblocks.network.MessageCustomRenderBase;
 import com.wdcftgg.carpentersblocks.network.PacketHandler;

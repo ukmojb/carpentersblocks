@@ -70,7 +70,7 @@ public class TileEntityGarageDoor extends TileEntity implements ITickable, ICust
 
 
                 if (power == 0) {
-                    block.cycleProperty(OPEN, blockState, pos, world);
+                    block.cycleProperty(OPEN, blockState, pos, world, false);
                 } else {
                     setTime(30);
                 }

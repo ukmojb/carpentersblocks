@@ -98,12 +98,8 @@ public class BlockCarpentersPressurePlate extends BlockFacing implements IStateI
 
         CbTileEntity cbTileEntity = getTileEntity(blockAccess, blockPos);
         AxisAlignedBB globalAABB = NULL_AABB;
-//        AxisAlignedBB globalAABB = getGlobalBoundingBox(getDefaultState(), cbTileEntity.getWorld(), cbTileEntity.getPos());
-        for (AxisAlignedBB aabb : StateFactory.getState(cbTileEntity).getAxisAlignedBBs()) {
-                globalAABB.intersect(aabb);
-        }
 
-        return globalAABB;
+        return NULL_AABB;
     }
     
     /**

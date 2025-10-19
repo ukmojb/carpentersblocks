@@ -2,8 +2,6 @@ package com.wdcftgg.carpentersblocks.client.render;
 
 import com.wdcftgg.carpentersblocks.CarpentersBlocks;
 import com.wdcftgg.carpentersblocks.blocks.BlockLadder;
-import com.wdcftgg.carpentersblocks.blocks.BlockTorch;
-import com.wdcftgg.carpentersblocks.blocks.te.TileEntityLadder;
 import com.wdcftgg.carpentersblocks.blocks.te.TileEntityLadder;
 import com.wdcftgg.carpentersblocks.client.model.ModelLadder;
 import net.minecraft.block.Block;

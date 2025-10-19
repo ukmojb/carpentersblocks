@@ -151,7 +151,7 @@ public class RenderBlockGarageDoorBlock extends TileEntitySpecialRenderer<TileEn
         if (Objects.equals(modid, "chisel")) {
 //                System.out.println(name);
             if (name.contains("wallvents-ctmh")) {
-                resourceLocation = new ResourceLocation(CarpentersBlocks.MODID + ":textures/block/wallvents-ctmh.png");
+                resourceLocation = new ResourceLocation(CarpentersBlocks.MODID + ":textures/blocks/wallvents-ctmh.png");
             }
         }
 

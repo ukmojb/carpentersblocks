@@ -2,14 +2,10 @@ package com.wdcftgg.carpentersblocks.client.render;
 
 import com.wdcftgg.carpentersblocks.CarpentersBlocks;
 import com.wdcftgg.carpentersblocks.blocks.BlockGate;
-import com.wdcftgg.carpentersblocks.blocks.BlockTorch;
-import com.wdcftgg.carpentersblocks.blocks.te.TileEntityGate;
 import com.wdcftgg.carpentersblocks.blocks.te.TileEntityGate;
 import com.wdcftgg.carpentersblocks.client.model.gate.ModelGateBase;
 import com.wdcftgg.carpentersblocks.client.model.gate.ModelGateClosed;
 import com.wdcftgg.carpentersblocks.client.model.gate.ModelGateOpen;
-import com.wdcftgg.carpentersblocks.client.model.torch.ModelTorchGround;
-import com.wdcftgg.carpentersblocks.client.model.torch.ModelTorchWall;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

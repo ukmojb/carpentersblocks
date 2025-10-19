@@ -1,10 +1,7 @@
 package com.wdcftgg.carpentersblocks.blocks;
 
 import com.wdcftgg.carpentersblocks.CarpentersBlocks;
-import com.wdcftgg.carpentersblocks.blocks.te.TileEntityButton;
-import com.wdcftgg.carpentersblocks.blocks.te.TileEntityLadder;
 import com.wdcftgg.carpentersblocks.blocks.te.TileEntityLever;
-import com.wdcftgg.carpentersblocks.blocks.te.TileEntitySafe;
 import com.wdcftgg.carpentersblocks.init.ModCreativeTab;
 import com.wdcftgg.carpentersblocks.items.ModItems;
 import com.wdcftgg.carpentersblocks.util.IHasModel;

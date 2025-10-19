@@ -254,7 +254,7 @@ public class BlockGarageDoorBlock extends Block implements IHasModel, ITileEntit
                 IBlockState blockState = worldIn.getBlockState(pos.up(i));
                 BlockGarageDoor block2 = (BlockGarageDoor) worldIn.getBlockState(pos.up(i)).getBlock();
 
-                block2.cycleProperty(OPEN, blockState, pos.up(i), worldIn);
+                block2.cycleProperty(OPEN, blockState, pos.up(i), worldIn, false);
                 break;
             }
 
@@ -284,7 +284,7 @@ public class BlockGarageDoorBlock extends Block implements IHasModel, ITileEntit
                         IBlockState blockState = worldIn.getBlockState(pos.up(i));
                         BlockGarageDoor block2 = (BlockGarageDoor) worldIn.getBlockState(pos.up(i)).getBlock();
 
-                        block2.cycleProperty(OPEN, blockState, pos.up(i), worldIn);
+                        block2.cycleProperty(OPEN, blockState, pos.up(i), worldIn, true);
                         break;
                     }
 

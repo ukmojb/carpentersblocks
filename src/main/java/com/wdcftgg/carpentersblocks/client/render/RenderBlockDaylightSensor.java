@@ -1,17 +1,12 @@
 package com.wdcftgg.carpentersblocks.client.render;
 
 import com.wdcftgg.carpentersblocks.CarpentersBlocks;
-import com.wdcftgg.carpentersblocks.blocks.BlockTorch;
-import com.wdcftgg.carpentersblocks.blocks.te.TileEntityDaylightSensor;
 import com.wdcftgg.carpentersblocks.blocks.te.TileEntityDaylightSensor;
 import com.wdcftgg.carpentersblocks.client.model.ModelDaylightSensor;
-import com.wdcftgg.carpentersblocks.client.model.torch.ModelTorchGround;
-import com.wdcftgg.carpentersblocks.client.model.torch.ModelTorchWall;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
